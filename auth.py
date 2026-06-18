@@ -9,9 +9,10 @@ from utils import load_users, add_user, update_last_login, verify_user
 def show_login_page():
     """Display the user login page."""
     st.markdown("""
-    <div class="login-container">
-        <h2 class="section-title">User Login</h2>
-        <p>Enter your credentials to access the FB Share Booster Pro</p>
+    <div class="login-container auth-hero">
+        <p class="welcome-kicker">User Account</p>
+        <h2 class="section-title">Login or Create Account</h2>
+        <p>Access your dashboard, follower growth tracker, cookie tools, and share tools.</p>
     </div>
     """, unsafe_allow_html=True)
     
@@ -19,14 +20,17 @@ def show_login_page():
     login_tab, signup_tab = st.tabs(["Login", "Sign Up"])
     
     with login_tab:
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns([3, 2])
         
         with col1:
-            username = st.text_input("Username", key="login_username")
-            password = st.text_input("Password", type="password", key="login_password")
-            submit_button = st.button("Login", key="submit_login", use_container_width=True)
-            
+            with st.form("user_login_form"):
+                st.markdown("### Welcome back")
+                username = st.text_input("Username", key="login_username", placeholder="Enter your username")
+                password = st.text_input("Password", type="password", key="login_password", placeholder="Enter your password")
+                submit_button = st.form_submit_button("Login", use_container_width=True)
+
             if submit_button:
+                username = username.strip()
                 if not username or not password:
                     st.error("Username and password cannot be empty")
                 else:
@@ -51,28 +55,32 @@ def show_login_page():
         with col2:
             st.markdown("""
             <div class="login-info-card">
-                <h3>Login Info</h3>
+                <h3>What happens after login?</h3>
                 <ul>
-                    <li>Enter your username and password</li>
-                    <li>Access all features after login</li>
-                    <li>Need an account? Use the Sign Up tab</li>
+                    <li>Your local app session opens</li>
+                    <li>You can use dashboard tools</li>
+                    <li>You can track follower growth plans</li>
                 </ul>
             </div>
             """, unsafe_allow_html=True)
     
     with signup_tab:
-        col1, col2 = st.columns([2, 1])
+        col1, col2 = st.columns([3, 2])
         
         with col1:
-            new_username = st.text_input("Choose Username", key="signup_username")
-            new_password = st.text_input("Choose Password", type="password", key="signup_password")
-            confirm_password = st.text_input("Confirm Password", type="password", key="confirm_password")
-            
-            signup_button = st.button("Create Account", key="submit_signup", use_container_width=True)
-            
+            with st.form("user_signup_form"):
+                st.markdown("### Create your account")
+                new_username = st.text_input("Choose Username", key="signup_username", placeholder="Example: redjan")
+                new_password = st.text_input("Choose Password", type="password", key="signup_password", placeholder="Create a password")
+                confirm_password = st.text_input("Confirm Password", type="password", key="confirm_password", placeholder="Repeat your password")
+                signup_button = st.form_submit_button("Create Account", use_container_width=True)
+
             if signup_button:
+                new_username = new_username.strip()
                 if not new_username or not new_password or not confirm_password:
                     st.error("All fields are required")
+                elif len(new_password) < 6:
+                    st.error("Password must be at least 6 characters")
                 elif new_password != confirm_password:
                     st.error("Passwords do not match")
                 else:
@@ -115,12 +123,11 @@ def show_login_page():
         with col2:
             st.markdown("""
             <div class="login-info-card">
-                <h3>Sign Up Info</h3>
+                <h3>Account setup</h3>
                 <ul>
-                    <li>Choose a unique username</li>
-                    <li>Create a strong password</li>
-                    <li>Account is created instantly</li>
-                    <li>Already have an account? Use the Login tab</li>
+                    <li>Stored locally in this project</li>
+                    <li>Password is saved as a hash</li>
+                    <li>Account opens right after signup</li>
                 </ul>
             </div>
             """, unsafe_allow_html=True)

@@ -145,6 +145,28 @@ def apply_custom_styles():
             margin-bottom: 1.25rem;
         }
 
+        .welcome-panel {
+            max-width: 860px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .welcome-kicker {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0.25rem 0.65rem;
+            margin: 0 0 0.9rem;
+            border-radius: 999px;
+            background: rgba(47, 128, 237, 0.14);
+            color: #b8d4ff;
+            border: 1px solid rgba(47, 128, 237, 0.28);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0;
+        }
+
         .welcome-title {
             color: var(--text);
             font-size: 1.75rem;
@@ -168,7 +190,7 @@ def apply_custom_styles():
         }
 
         .feature {
-            min-height: 138px;
+            min-height: 126px;
             padding: 1.1rem;
             background: var(--surface-raised);
             border: 1px solid var(--border);
@@ -180,12 +202,14 @@ def apply_custom_styles():
             font-size: 1rem;
             line-height: 1.25;
             margin: 0 0 0.75rem;
+            overflow-wrap: anywhere;
         }
 
         .feature p {
             color: var(--muted);
             line-height: 1.5;
             margin: 0;
+            overflow-wrap: anywhere;
         }
 
         .login-container,
@@ -193,6 +217,34 @@ def apply_custom_styles():
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             border-left: 4px solid var(--primary);
+        }
+
+        .auth-hero {
+            max-width: 920px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-hero + div,
+        .auth-hero ~ div {
+            max-width: 920px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        div[data-testid="stForm"] {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.35rem;
+            box-shadow: var(--shadow);
+        }
+
+        div[data-testid="stForm"] h3 {
+            color: var(--text);
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
         }
 
         .admin-login,
@@ -206,6 +258,7 @@ def apply_custom_styles():
             padding: 1.5rem;
             height: 100%;
             border-left: 4px solid var(--primary);
+            min-height: 214px;
         }
 
         .cookie-info-card.advanced {
@@ -330,6 +383,21 @@ def apply_custom_styles():
             transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
         }
 
+        .stFormSubmitButton > button {
+            min-height: 44px;
+            background: var(--primary);
+            border: 1px solid rgba(47, 128, 237, 0.72);
+            color: #fff;
+            font-weight: 800;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 24px rgba(47, 128, 237, 0.22);
+        }
+
+        .stFormSubmitButton > button:hover {
+            background: var(--primary-hover);
+            color: #fff;
+        }
+
         .stButton > button:hover {
             background: var(--primary-hover);
             border-color: var(--primary-hover);
@@ -437,6 +505,12 @@ def apply_custom_styles():
 
             .features-container {
                 grid-template-columns: 1fr;
+            }
+
+            .auth-hero,
+            .auth-hero + div,
+            .auth-hero ~ div {
+                max-width: 100%;
             }
         }
     </style>

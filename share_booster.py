@@ -6,6 +6,32 @@ import asyncio
 import os
 from utils import validate_cookie, validate_post_url, get_token_from_cookie, extract_cookie_from_appstate
 
+def format_facebook_error(data):
+    """Return a readable message from a Facebook API error response."""
+    if not isinstance(data, dict):
+        return "Facebook returned an unexpected response."
+
+    error = data.get("error")
+    if not isinstance(error, dict):
+        return "Facebook rejected the request."
+
+    message = error.get("message") or "Facebook rejected the request."
+    error_type = error.get("type")
+    code = error.get("code")
+    subcode = error.get("error_subcode")
+
+    details = []
+    if error_type:
+        details.append(f"type: {error_type}")
+    if code:
+        details.append(f"code: {code}")
+    if subcode:
+        details.append(f"subcode: {subcode}")
+
+    if details:
+        return f"{message} ({', '.join(details)})"
+    return message
+
 def share_post(cookie, post, share_count, delay):
     """Execute the post sharing operation."""
     
@@ -74,7 +100,16 @@ def share_post(cookie, post, share_count, delay):
                             progress_bar.progress(progress)
                             status_text.markdown(f"<div class='share-progress'>✅ ({count}/{share_count}) Successfully shared</div>", unsafe_allow_html=True)
                         else:
-                            status_text.markdown(f"<div class='share-error'>❌ Cookie blocked or invalid. Total successful shares: {count}</div>", unsafe_allow_html=True)
+                            facebook_error = format_facebook_error(data)
+                            status_text.markdown(
+                                "<div class='share-error'>"
+                                f"Facebook rejected the share request. Total successful shares: {count}<br>"
+                                f"Reason: {facebook_error}<br>"
+                                "Try a fresh session from an account you control, confirm the post is public/shareable, "
+                                "and avoid repeated automated requests if Facebook is rate limiting or checkpointing the account."
+                                "</div>",
+                                unsafe_allow_html=True
+                            )
                             return
                 except Exception as e:
                     status_text.markdown(f"<div class='share-error'>❌ Error: {str(e)}</div>", unsafe_allow_html=True)

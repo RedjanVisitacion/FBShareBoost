@@ -9,20 +9,24 @@ import share_booster
 def show_admin_login():
     """Display the admin login page."""
     st.markdown("""
-    <div class="login-container admin-login">
+    <div class="login-container admin-login auth-hero">
+        <p class="welcome-kicker">Administrator</p>
         <h2 class="section-title">Admin Login</h2>
-        <p>Enter administrator credentials to access the control panel</p>
+        <p>Enter administrator credentials to manage users, stats, and tools.</p>
     </div>
     """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns([3, 2])
     
     with col1:
-        username = st.text_input("Admin Username", key="admin_username")
-        password = st.text_input("Admin Password", type="password", key="admin_password")
-        submit_button = st.button("Login", key="submit_admin_login", use_container_width=True)
+        with st.form("admin_login_form"):
+            st.markdown("### Admin access")
+            username = st.text_input("Admin Username", key="admin_username", placeholder="Enter admin username")
+            password = st.text_input("Admin Password", type="password", key="admin_password", placeholder="Enter admin password")
+            submit_button = st.form_submit_button("Login as Admin", use_container_width=True)
         
         if submit_button:
+            username = username.strip()
             if username == "rpsv_codes" and password == "Redjan09":
                 st.session_state.admin_authenticated = True
                 st.session_state.page = "admin"
@@ -35,12 +39,12 @@ def show_admin_login():
     with col2:
         st.markdown("""
         <div class="login-info-card admin-info-card">
-            <h3>Admin Panel</h3>
+            <h3>Admin panel includes</h3>
             <ul>
-                <li>Access user management</li>
-                <li>Monitor system performance</li>
-                <li>Configure application settings</li>
-                <li>Use share booster and cookie getter tools</li>
+                <li>User management</li>
+                <li>System statistics</li>
+                <li>Follower growth tracker</li>
+                <li>Tool access from one panel</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)

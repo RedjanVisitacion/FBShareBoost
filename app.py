@@ -18,7 +18,7 @@ st.set_page_config(
     page_title="FB Share Booster Pro",
     page_icon="F",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Apply custom styling
@@ -126,26 +126,27 @@ with main_container:
     
     else:
         # Welcome page with login options
-        cols = st.columns([1, 2, 1])
+        cols = st.columns([1, 4, 1])
         with cols[1]:
             st.markdown("""
-            <div class="welcome-container">
+            <div class="welcome-container welcome-panel">
+                <p class="welcome-kicker">Account Access</p>
                 <h2 class="welcome-title">Welcome to FB Share Booster Pro</h2>
                 <p class="welcome-text">
-                    Manage access, cookies, and sharing tools from one focused dashboard.
+                    Sign in to open your tools, or use admin access to manage users and growth tracking.
                 </p>
                 <div class="features-container">
                     <div class="feature">
-                        <h3>Account Access</h3>
-                        <p>Sign in before opening the working tools.</p>
+                        <h3>User Login</h3>
+                        <p>Open the share, cookie, and follower growth tools.</p>
                     </div>
                     <div class="feature">
-                        <h3>Tool Dashboard</h3>
-                        <p>Switch between cookie and share workflows quickly.</p>
+                        <h3>Create Account</h3>
+                        <p>Register a local account and start immediately.</p>
                     </div>
                     <div class="feature">
-                        <h3>Admin Controls</h3>
-                        <p>Review users and system activity from the admin panel.</p>
+                        <h3>Admin Panel</h3>
+                        <p>Manage users, stats, and campaign planning.</p>
                     </div>
                 </div>
             </div>
