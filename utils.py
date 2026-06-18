@@ -101,6 +101,91 @@ def save_users(data):
     with open(file_path, "w") as f:
         json.dump(data, f, indent=4)
 
+def load_follower_growth():
+    """Load follower growth tracker data from JSON file."""
+    data_dir = "data"
+    os.makedirs(data_dir, exist_ok=True)
+
+    file_path = os.path.join(data_dir, "follower_growth.json")
+    default_data = {
+        "current_followers": 0,
+        "target_followers": 1000,
+        "weekly_goal": 50,
+        "campaigns": [],
+        "notes": []
+    }
+
+    try:
+        with open(file_path, "r") as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        save_follower_growth(default_data)
+        return default_data
+
+    for key, value in default_data.items():
+        data.setdefault(key, value)
+    return data
+
+def save_follower_growth(data):
+    """Save follower growth tracker data to JSON file."""
+    data_dir = "data"
+    os.makedirs(data_dir, exist_ok=True)
+
+    file_path = os.path.join(data_dir, "follower_growth.json")
+    with open(file_path, "w") as f:
+        json.dump(data, f, indent=4)
+
+def add_growth_campaign(title, channel, post_url, planned_date, expected_followers, status, notes):
+    """Add a follower growth campaign entry."""
+    data = load_follower_growth()
+    campaign = {
+        "id": str(uuid.uuid4()),
+        "title": title,
+        "channel": channel,
+        "post_url": post_url,
+        "planned_date": str(planned_date),
+        "expected_followers": int(expected_followers or 0),
+        "status": status,
+        "notes": notes,
+        "created_at": time.strftime("%Y-%m-%d %H:%M:%S")
+    }
+    data["campaigns"].append(campaign)
+    save_follower_growth(data)
+    return campaign
+
+def update_growth_goal(current_followers, target_followers, weekly_goal):
+    """Update follower growth goals."""
+    data = load_follower_growth()
+    data["current_followers"] = int(current_followers or 0)
+    data["target_followers"] = int(target_followers or 0)
+    data["weekly_goal"] = int(weekly_goal or 0)
+    save_follower_growth(data)
+    return data
+
+def update_campaign_status(campaign_id, status):
+    """Update a follower campaign status."""
+    data = load_follower_growth()
+    for campaign in data["campaigns"]:
+        if campaign["id"] == campaign_id:
+            campaign["status"] = status
+            campaign["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+            save_follower_growth(data)
+            return True
+    return False
+
+def remove_growth_campaign(campaign_id):
+    """Remove a follower growth campaign."""
+    data = load_follower_growth()
+    original_count = len(data["campaigns"])
+    data["campaigns"] = [
+        campaign for campaign in data["campaigns"]
+        if campaign["id"] != campaign_id
+    ]
+    if len(data["campaigns"]) != original_count:
+        save_follower_growth(data)
+        return True
+    return False
+
 def verify_user(username, password):
     """Verify user credentials."""
     data = load_users()

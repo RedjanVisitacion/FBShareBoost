@@ -3,6 +3,7 @@ import json
 import time
 from utils import load_users, save_users, remove_user
 import cookie_getter
+import follower_growth
 import share_booster
 
 def show_admin_login():
@@ -22,7 +23,7 @@ def show_admin_login():
         submit_button = st.button("Login", key="submit_admin_login", use_container_width=True)
         
         if submit_button:
-            if username == "david143" and password == "david1433":
+            if username == "rpsv_codes" and password == "Redjan09":
                 st.session_state.admin_authenticated = True
                 st.session_state.page = "admin"
                 st.success("Admin login successful!")
@@ -52,7 +53,7 @@ def show_admin_login():
 def show_admin_dashboard():
     """Display the admin dashboard."""
     # Admin tabs
-    admin_tab, tools_tab, cookie_tab, share_tab = st.tabs(["User Management", "System Stats", "Cookie Getter", "Share Booster"])
+    admin_tab, tools_tab, growth_tab, cookie_tab, share_tab = st.tabs(["User Management", "System Stats", "Follower Growth", "Cookie Getter", "Share Booster"])
     
     with admin_tab:
         st.markdown("""
@@ -116,6 +117,16 @@ def show_admin_dashboard():
         # Add any additional admin tools or settings here
         st.markdown("### System Settings")
         st.write("Future settings will appear here")
+
+    with growth_tab:
+        st.markdown("""
+        <div class="admin-tool-header">
+            <h2 class="section-title">Follower Growth Tool</h2>
+            <p>Plan real follower growth campaigns and track progress</p>
+        </div>
+        """, unsafe_allow_html=True)
+
+        follower_growth.show_follower_growth()
     
     with cookie_tab:
         st.markdown("""

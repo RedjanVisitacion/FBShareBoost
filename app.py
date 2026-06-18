@@ -9,15 +9,16 @@ import utils
 import auth
 import admin
 import cookie_getter
+import follower_growth
 import share_booster
 import style
 
 # Page configuration
 st.set_page_config(
     page_title="FB Share Booster Pro",
-    page_icon="🚀",
+    page_icon="F",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # Apply custom styling
@@ -75,6 +76,8 @@ with st.sidebar:
             st.session_state.page = "main"
         if st.button("Cookie Getter", key="nav_cookie"):
             st.session_state.page = "cookie_getter"
+        if st.button("Follower Growth", key="nav_follower_growth"):
+            st.session_state.page = "follower_growth"
         if st.button("Logout", key="nav_logout"):
             st.session_state.authenticated = False
             st.session_state.admin_authenticated = False
@@ -113,6 +116,9 @@ with main_container:
     
     elif st.session_state.page == "cookie_getter" and st.session_state.authenticated:
         cookie_getter.show_cookie_getter()
+
+    elif st.session_state.page == "follower_growth" and st.session_state.authenticated:
+        follower_growth.show_follower_growth()
     
     elif st.session_state.authenticated:
         # Main dashboard with share booster
@@ -126,21 +132,20 @@ with main_container:
             <div class="welcome-container">
                 <h2 class="welcome-title">Welcome to FB Share Booster Pro</h2>
                 <p class="welcome-text">
-                    Boost your Facebook post reach with our professional tool.
-                    Login to get started or try our cookie getter tool.
+                    Manage access, cookies, and sharing tools from one focused dashboard.
                 </p>
                 <div class="features-container">
                     <div class="feature">
-                        <h3>🔒 Secure Login</h3>
-                        <p>Your data stays private and secure</p>
+                        <h3>Account Access</h3>
+                        <p>Sign in before opening the working tools.</p>
                     </div>
                     <div class="feature">
-                        <h3>🚀 Fast Boosting</h3>
-                        <p>Quickly increase your post engagement</p>
+                        <h3>Tool Dashboard</h3>
+                        <p>Switch between cookie and share workflows quickly.</p>
                     </div>
                     <div class="feature">
-                        <h3>⚙️ Advanced Options</h3>
-                        <p>Customize your boosting experience</p>
+                        <h3>Admin Controls</h3>
+                        <p>Review users and system activity from the admin panel.</p>
                     </div>
                 </div>
             </div>
@@ -159,28 +164,6 @@ with main_container:
 # Footer
 st.markdown("""
 <footer class="footer">
-    <p>© 2023 FB Share Booster Pro. All rights reserved.</p>
+    <p>Copyright 2023 FB Share Booster Pro. All rights reserved.</p>
 </footer>
 """, unsafe_allow_html=True)
-
-# Execute JavaScript for animations and 3D effects
-components_js = """
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add 3D hover effect to buttons
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(button => {
-            button.addEventListener('mouseover', function() {
-                this.style.transform = 'translateY(-3px)';
-                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.3)';
-            });
-            button.addEventListener('mouseout', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
-            });
-        });
-    });
-</script>
-"""
-
-st.components.v1.html(components_js)
